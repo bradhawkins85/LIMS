@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 {% block content %}
 <h2>{{ 'New Sample' if not sample else 'Sample ' ~ sample.job_number }}</h2>
-<div class="sample-info">
+<div class="card sample-info">
   <form method="post">
     <label>Job Number
       <input name="job_number" value="{{ sample.job_number if sample else '' }}" required>
@@ -19,7 +19,7 @@
   </form>
 </div>
 {% if sample %}
-<div class="tests">
+<div class="card tests">
   <h3>Tests</h3>
   <table>
     <tr><th>Name</th><th>Method</th><th>Spec</th><th>Result</th><th>Analyst</th><th>Checker</th><th></th></tr>
