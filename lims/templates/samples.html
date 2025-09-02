@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2>Samples</h2>
+<a href="{{ url_for('main.sample_new') }}">New Sample</a>
+<table>
+  <tr><th>Job Number</th><th>Description</th><th>Released</th></tr>
+  {% for s in samples %}
+  <tr>
+    <td><a href="{{ url_for('main.sample_detail', sample_id=s.id) }}">{{ s.job_number }}</a></td>
+    <td>{{ s.description }}</td>
+    <td>{{ 'Yes' if s.released else 'No' }}</td>
+  </tr>
+  {% endfor %}
+</table>
+{% endblock %}

@@ -1,0 +1,21 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>LIMS</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  </head>
+  <body>
+    <div class="layout">
+      <nav class="menu">
+        <ul>
+          <li><a href="{{ url_for('main.sample_list') }}">Samples</a></li>
+          <li><a href="{{ url_for('auth.logout') }}">Logout</a></li>
+        </ul>
+      </nav>
+      <main class="content">
+        {% block content %}{% endblock %}
+      </main>
+    </div>
+  </body>
+</html>
