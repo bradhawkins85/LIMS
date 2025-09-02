@@ -48,7 +48,8 @@ def sample_detail(sample_id):
         old_released = sample.released
         sample.job_number = request.form['job_number']
         sample.description = request.form['description']
-        sample.received_date = request.form['received_date'] or None
+        date_str = request.form['received_date']
+        sample.received_date = date.fromisoformat(date_str) if date_str else None
         sample.released = 'released' in request.form
         if old_released and not sample.released and current_user.role != 'admin':
             flash('Only admin can un-release a sample.')
@@ -66,10 +67,11 @@ def sample_detail(sample_id):
 @login_required
 def sample_new():
     if request.method == 'POST':
+        date_str = request.form['received_date']
         sample = Sample(
             job_number=request.form['job_number'],
             description=request.form['description'],
-            received_date=request.form['received_date'] or None,
+            received_date=date.fromisoformat(date_str) if date_str else None,
         )
         db.session.add(sample)
         db.session.commit()
