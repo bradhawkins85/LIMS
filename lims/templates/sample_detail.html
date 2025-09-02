@@ -1,0 +1,60 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2>{{ 'New Sample' if not sample else 'Sample ' ~ sample.job_number }}</h2>
+<div class="sample-info">
+  <form method="post">
+    <label>Job Number
+      <input name="job_number" value="{{ sample.job_number if sample else '' }}" required>
+    </label>
+    <label>Description
+      <input name="description" value="{{ sample.description if sample else '' }}">
+    </label>
+    <label>Received Date
+      <input type="date" name="received_date" value="{{ sample.received_date }}">
+    </label>
+    <label>Released
+      <input type="checkbox" name="released" {% if sample and sample.released %}checked{% endif %}>
+    </label>
+    <button type="submit">Save</button>
+  </form>
+</div>
+{% if sample %}
+<div class="tests">
+  <h3>Tests</h3>
+  <table>
+    <tr><th>Name</th><th>Method</th><th>Spec</th><th>Result</th><th>Analyst</th><th>Checker</th><th></th></tr>
+    {% for t in sample.tests %}
+    <tr>
+      <form action="{{ url_for('main.update_test', test_id=t.id) }}" method="post">
+        <td>{{ t.test_name }}</td>
+        <td>{{ t.method }}</td>
+        <td>{{ t.specification }}</td>
+        <td><input name="result" value="{{ t.result }}" {% if sample.released %}readonly{% endif %}></td>
+        <td>
+          <input name="analyst_id" value="{{ t.analyst_id or '' }}" {% if sample.released %}readonly{% endif %}>
+        </td>
+        <td>
+          <input name="checker_id" value="{{ t.checker_id or '' }}" {% if sample.released %}readonly{% endif %}>
+        </td>
+        <td>
+          {% if not sample.released %}<button type="submit">Update</button>{% endif %}
+        </td>
+      </form>
+    </tr>
+    {% endfor %}
+  </table>
+  {% if not sample.released %}
+  <h4>Add Test</h4>
+  <form action="{{ url_for('main.add_test', sample_id=sample.id) }}" method="post">
+    <input name="test_name" placeholder="Test name" required>
+    <input name="method" placeholder="Method">
+    <input name="specification" placeholder="Specification">
+    <input name="result" placeholder="Result">
+    <input name="analyst_id" placeholder="Analyst ID">
+    <input name="checker_id" placeholder="Checker ID">
+    <button type="submit">Add</button>
+  </form>
+  {% endif %}
+</div>
+{% endif %}
+{% endblock %}
