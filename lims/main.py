@@ -135,7 +135,11 @@ def update_app():
         flash('Only admin can update the application.')
         return redirect(url_for('main.sample_list'))
     repo_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-    result = subprocess.run(['git', 'pull'], cwd=repo_dir, capture_output=True, text=True)
+    try:
+        result = subprocess.run(['git', 'pull'], cwd=repo_dir, capture_output=True, text=True)
+    except FileNotFoundError:
+        flash('Update failed: git is not installed.')
+        return redirect(url_for('main.sample_list'))
     if result.returncode != 0:
         flash('Update failed: ' + result.stderr)
         return redirect(url_for('main.sample_list'))
