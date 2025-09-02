@@ -10,6 +10,9 @@
       <nav class="menu">
         <ul>
           <li><a href="{{ url_for('main.sample_list') }}">Samples</a></li>
+          {% if current_user.is_authenticated and current_user.role == 'admin' %}
+          <li><a href="{{ url_for('main.update_app') }}">Update</a></li>
+          {% endif %}
           <li><a href="{{ url_for('auth.logout') }}">Logout</a></li>
         </ul>
       </nav>

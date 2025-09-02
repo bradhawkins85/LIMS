@@ -1,4 +1,6 @@
 from datetime import date
+import os
+import subprocess
 from flask import Blueprint, render_template, request, redirect, url_for, flash
 from flask_login import login_required, current_user
 
@@ -122,3 +124,18 @@ def update_test(test_id):
     log_change('test', test.id, 'result', old_result, test.result)
     flash('Test updated')
     return redirect(url_for('main.sample_detail', sample_id=sample.id))
+
+
+@bp.route('/update')
+@login_required
+def update_app():
+    if current_user.role != 'admin':
+        flash('Only admin can update the application.')
+        return redirect(url_for('main.sample_list'))
+    repo_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+    result = subprocess.run(['git', 'pull'], cwd=repo_dir, capture_output=True, text=True)
+    if result.returncode != 0:
+        flash('Update failed: ' + result.stderr)
+        return redirect(url_for('main.sample_list'))
+    flash('Application updated, restarting...')
+    os._exit(0)
