@@ -1,3 +1,5 @@
+import os
+
 from flask import Flask
 from flask_login import LoginManager
 from werkzeug.security import generate_password_hash
@@ -8,11 +10,12 @@ from .main import bp as main_bp
 
 
 def create_app(test_config=None):
-    app = Flask(__name__)
+    app = Flask(__name__, instance_relative_config=True)
     app.config['SECRET_KEY'] = 'dev'
+    os.makedirs(app.instance_path, exist_ok=True)
     app.config['SQLALCHEMY_DATABASE_URI'] = (
         app.config.get('DATABASE_URI')
-        or 'sqlite:///lims.db'
+        or f"sqlite:///{os.path.join(app.instance_path, 'lims.db')}"
     )
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
     if test_config:
