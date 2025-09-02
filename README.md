@@ -46,3 +46,19 @@ export DATABASE_URI="mysql+pymysql://user:password@localhost/lims"
 Then run `flask --app lims.app:create_app run --host 0.0.0.0`.
 
 Login with username `admin` and password `admin`.
+
+## Running as a service
+
+A sample `lims.service` unit file is provided for systemd-based deployments. Install and start it with:
+
+```bash
+sudo cp lims.service /etc/systemd/system/
+sudo systemctl daemon-reload
+sudo systemctl enable --now lims
+```
+
+Adjust the paths in the service file to match your environment.
+
+## Updating
+
+Admin users see an **Update** link in the left navigation. Visiting this link pulls the latest code from the Git repository and restarts the service to apply changes.
