@@ -30,8 +30,9 @@ pip install -r requirements.txt
 After installing the dependencies, initialize the database and start the app:
 
 ```bash
-flask --app lims.app create-app init-db  # creates SQLite database and admin user
-flask --app lims.app run
+pip install -r requirements.txt  # optional; or install Flask, Flask-Login, Flask-SQLAlchemy, PyMySQL
+flask --app lims.app:create_app init-db  # creates SQLite database and admin user
+flask --app lims.app:create_app run --host 0.0.0.0
 ```
 
 When you're done, exit the virtual environment with `deactivate`.
@@ -42,6 +43,6 @@ The app uses SQLite by default. Set the `DATABASE_URI` environment variable to c
 export DATABASE_URI="mysql+pymysql://user:password@localhost/lims"
 ```
 
-Then run `flask --app lims.app run`.
+Then run `flask --app lims.app:create_app run --host 0.0.0.0`.
 
 Login with username `admin` and password `admin`.
