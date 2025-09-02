@@ -42,11 +42,21 @@ body {
   margin: 0;
 }
 
-.sidebar a {
+.sidebar button {
+  background: none;
+  border: none;
   color: var(--text-color);
-  text-decoration: none;
-  display: block;
+  display: flex;
+  align-items: center;
   padding: 0.5rem 0;
+  width: 100%;
+  text-align: left;
+  gap: 0.5rem;
+  cursor: pointer;
+}
+
+.sidebar button:hover {
+  color: var(--accent);
 }
 
 .main {
