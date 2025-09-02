@@ -6,7 +6,7 @@ After=network.target
 Type=simple
 WorkingDirectory=/opt/lims
 Environment="PATH=/opt/lims/.venv/bin"
-ExecStart=/opt/lims/.venv/bin/flask --app lims.app:create_app run --host 0.0.0.0 --port 8000
+ExecStart=/opt/lims/.venv/bin/python -m flask --app lims.app:create_app run --host 0.0.0.0 --port 8000
 Restart=always
 User=www-data
 Group=www-data
